@@ -17,8 +17,8 @@ require_command() {
     echo "'$cmd' is not installed. Installing..."
 
     if command -v apt-get >/dev/null 2>&1; then
-        apt-get update
-        apt-get install -y "$cmd"
+        sudo apt-get update
+        sudo apt-get install -y "$cmd"
     else
         echo "Error: no supported package manager found. Please install '$cmd' manually." >&2
         exit 1
@@ -29,6 +29,8 @@ post_install() {
     for pkg in "${POST_INSTALL_PACKAGES[@]}"; do
         require_command "$pkg"
     done
+    # FIX: Remove hardcode
+    source $HOME/.bashrc
 }
 
 link_config() {
