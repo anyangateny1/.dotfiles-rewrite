@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 CONFIG_SRC="$SCRIPT_DIR"
 CONFIG_DEST="${HOME}/.config/nvim"
 
-POST_INSTALL_PACKAGES=(wl-clipboard)
+POST_INSTALL_PACKAGES=(wl-clipboard make ripgrep)
 
 require_command() {
     local cmd="$1"
