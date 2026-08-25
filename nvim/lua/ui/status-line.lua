@@ -1,9 +1,13 @@
 return {
   "nvim-mini/mini.statusline",
-  version = false,
   opts = {
-    section_location = function()
-      return string.format("%d:%d", vim.fn.line("."), vim.fn.col("."))
-    end,
+    use_icons = vim.g.have_nerd_font,
   },
+  config = function(_, opts)
+    local statusline = require("mini.statusline")
+    statusline.setup(opts)
+    statusline.section_location = function()
+      return "%2l:%-2v"
+    end
+  end,
 }

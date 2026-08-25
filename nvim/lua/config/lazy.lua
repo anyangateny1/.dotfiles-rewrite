@@ -22,6 +22,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- { import = "plugins" },
   { import = "ui" },
+  { import = "git" },
 }, {
   change_detection = {
     notify = false,
