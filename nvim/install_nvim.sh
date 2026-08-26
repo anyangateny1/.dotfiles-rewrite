@@ -5,7 +5,7 @@ SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)"
 CONFIG_SRC="$SCRIPT_DIR"
 CONFIG_DEST="${HOME}/.config/nvim"
 
-POST_INSTALL_PACKAGES=(wl-clipboard make ripgrep)
+POST_INSTALL_PACKAGES=(wl-clipboard make ripgrep npm clang)
 
 require_command() {
     local cmd="$1"
@@ -29,8 +29,6 @@ post_install() {
     for pkg in "${POST_INSTALL_PACKAGES[@]}"; do
         require_command "$pkg"
     done
-    # FIX: Remove hardcode
-    source $HOME/.bashrc
 }
 
 link_config() {
@@ -56,6 +54,10 @@ link_config() {
 main() {
     link_config "$CONFIG_SRC" "$CONFIG_DEST"
     post_install
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    cargo install tree-sitter-cli 2>/dev/null || echo "  [!!] Failed to install via cargo"
+    # FIX: Remove hardcode
+    source $HOME/.bashrc
 }
 
 main "$@"
