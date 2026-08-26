@@ -1,4 +1,3 @@
--- ui/colorscheme.lua
 return {
   "rebelot/kanagawa.nvim",
   lazy = false,
