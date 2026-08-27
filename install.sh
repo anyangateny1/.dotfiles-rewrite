@@ -3,6 +3,8 @@ set -euo pipefail
 
 NVIM_VERSION="0.12.5"
 NVIM_ARCHIVE="nvim-linux-x86_64.tar.gz"
+# NVIM_ARCHIVE="nvim-macos-arm64.tar.gz"
+# NVIM_ARCHIVE="nvim-linux-arm64.tar.gz"
 NVIM_URL="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/${NVIM_ARCHIVE}"
 
 INSTALL_DIR="/opt/nvim"
@@ -46,7 +48,7 @@ install_neovim() {
     echo "Installing Neovim ${version} to ${install_dir}..."
     sudo rm -rf "$install_dir"
     sudo tar -C /opt -xzf "$tmp_dir/$archive"
-    sudo mv "/opt/nvim-linux-x86_64" "$install_dir"
+    sudo mv "/opt/${NVIM_ARCHIVE%%.*}" "$install_dir"
 }
 
 configure_path() {
