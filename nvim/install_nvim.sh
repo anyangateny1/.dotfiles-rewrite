@@ -51,13 +51,25 @@ link_config() {
     echo "Symlinked ${src} -> ${dest}."
 }
 
+install_luarocks(){
+wget https://luarocks.org/releases/luarocks-3.13.0.tar.gz
+tar zxpf luarocks-3.13.0.tar.gz
+cd luarocks-3.13.0 && ./configure && make && sudo make install
+sudo luarocks install luasocket
+rm -rf luarocks*
+}
+
 main() {
     link_config "$CONFIG_SRC" "$CONFIG_DEST"
     post_install
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+    # This doesnt work
+    source "$HOME/.cargo/env"
+    # This doesnt work
     cargo install tree-sitter-cli 2>/dev/null || echo "  [!!] Failed to install via cargo"
     # FIX: Remove hardcode
-    source $HOME/.bashrc
+    # This doesnt work
+    source "$HOME/.bashrc"
 }
 
 main "$@"

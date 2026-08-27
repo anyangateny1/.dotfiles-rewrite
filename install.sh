@@ -2,15 +2,17 @@
 set -euo pipefail
 
 NVIM_VERSION="0.12.5"
-NVIM_ARCHIVE="nvim-linux-x86_64.tar.gz"
-# NVIM_ARCHIVE="nvim-macos-arm64.tar.gz"
-# NVIM_ARCHIVE="nvim-linux-arm64.tar.gz"
+
+## determine
+if [ "$(uname -s)" == "Darwin" ]; then OS="macos"; else OS="linux"; fi
+ARCH="$(uname -m)"
+NVIM_ARCHIVE="nvim-${OS}-${ARCH}.tar.gz"
 NVIM_URL="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/${NVIM_ARCHIVE}"
 
 INSTALL_DIR="/opt/nvim"
 NVIM_BIN_DIR="${INSTALL_DIR}/bin"
 
-PREREQUISITE_PACKAGES=(sudo curl tar git)
+PREREQUISITE_PACKAGES=(sudo curl tar git wget lua5.4 liblua5.4-dev unzip)
 
 require_command() {
     local cmd="$1"
