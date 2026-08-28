@@ -16,6 +16,8 @@ return {
   opts = {
     formatters_by_ft = {
       lua = { "stylua" },
+
+      sh = { "shfmt" },
     },
     -- Format on save can be disabled
     format_on_save = function(bufnr)

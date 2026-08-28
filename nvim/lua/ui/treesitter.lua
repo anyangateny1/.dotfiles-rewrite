@@ -7,7 +7,7 @@ return {
     opts = {},
     config = function(_, opts)
       require("nvim-treesitter").setup(opts)
-      require("nvim-treesitter").install({ "lua" })
+      require("nvim-treesitter").install({ "lua", "bash" })
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(ev)
           if pcall(vim.treesitter.start, ev.buf) then
