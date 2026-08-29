@@ -33,5 +33,27 @@ return {
       "<cmd>Trouble qflist toggle<cr>",
       desc = "Quickfix List (Trouble)",
     },
+    {
+      "[t",
+      function()
+        if require("trouble").is_open() then
+          require("trouble").prev({ skip_groups = true, jump = true })
+        else
+          pcall(vim.cmd.cprev)
+        end
+      end,
+      desc = "Previous Trouble/Quickfix Item",
+    },
+    {
+      "]t",
+      function()
+        if require("trouble").is_open() then
+          require("trouble").next({ skip_groups = true, jump = true })
+        else
+          pcall(vim.cmd.cnext)
+        end
+      end,
+      desc = "Next Trouble/Quickfix Item",
+    },
   },
 }
