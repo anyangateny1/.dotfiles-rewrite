@@ -23,6 +23,7 @@ return {
         "delve",
         -- C/C++
         "clangd",
+        "codelldb",
         -- Python
         "pyright",
         "ruff",
