@@ -12,6 +12,8 @@ return {
       go = { "golangcilint" },
 
       markdown = { "markdownlint-cli2" },
+
+      python = { "ruff" },
     }
 
     vim.api.nvim_create_autocmd({ "BufEnter", "BufWritePost", "InsertLeave" }, {

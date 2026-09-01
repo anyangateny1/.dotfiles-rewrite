@@ -20,8 +20,13 @@ return {
         -- Go
         "gopls",
         "golangci-lint",
+        "delve",
         -- C/C++
         "clangd",
+        -- Python
+        "pyright",
+        "ruff",
+        "debugpy",
         -- Markdown
         "markdownlint-cli2",
       },

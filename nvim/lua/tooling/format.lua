@@ -20,6 +20,8 @@ return {
       sh = { "shfmt" },
 
       markdown = { "prettierd" },
+
+      python = { "ruff" },
     },
     -- Format on save can be disabled
     format_on_save = function(bufnr)
