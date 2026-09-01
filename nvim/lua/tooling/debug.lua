@@ -81,11 +81,6 @@ return {
     local dap = require("dap")
     local dapui = require("dapui")
 
-    require("mason-nvim-dap").setup({
-      automatic_installation = true,
-      ensure_installed = {},
-    })
-
     -- DAP UI.
     dapui.setup()
 
@@ -99,6 +94,14 @@ return {
 
     dap.listeners.before.event_exited["dapui_config"] = function()
       dapui.close()
+    end
+
+    -- Auto-load per-adapter configs from after/dap/*.lua
+    local dap_dir = vim.fn.stdpath("config") .. "/after/dap"
+    for name, ftype in vim.fs.dir(dap_dir) do
+      if ftype == "file" and name:match("%.lua$") then
+        dofile(dap_dir .. "/" .. name)
+      end
     end
 
     require("nvim-dap-virtual-text").setup({

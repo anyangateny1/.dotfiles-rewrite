@@ -6,6 +6,7 @@ return {
     vim.lsp.enable("bashls")
     vim.lsp.enable("gopls")
     vim.lsp.enable("clangd")
+    vim.lsp.enable("pyright")
 
     vim.diagnostic.config({
       severity_sort = true,
@@ -22,6 +23,17 @@ return {
       virtual_text = {
         source = "if_many",
       },
+    })
+    vim.api.nvim_create_autocmd("LspAttach", {
+      group = vim.api.nvim_create_augroup("lsp-inlay-hints", { clear = true }),
+      callback = function(event)
+        local client = vim.lsp.get_client_by_id(event.data.client_id)
+        if client and client:supports_method("textDocument/inlayHint") then
+          vim.keymap.set("n", "<leader>th", function()
+            vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = event.buf }))
+          end, { buffer = event.buf, desc = "LSP: [T]oggle Inlay [H]ints" })
+        end
+      end,
     })
   end,
 }
