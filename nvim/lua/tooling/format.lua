@@ -18,6 +18,8 @@ return {
       lua = { "stylua" },
 
       sh = { "shfmt" },
+
+      markdown = { "prettierd" },
     },
     -- Format on save can be disabled
     format_on_save = function(bufnr)

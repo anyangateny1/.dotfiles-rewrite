@@ -46,6 +46,16 @@ return {
 
   opts = {
     close_if_last_window = true,
+
+    default_component_configs = {
+      git_status = {
+        symbols = {
+          modified = "M",
+          unstaged = "○",
+        },
+      },
+    },
+
     filesystem = {
       window = {
         position = "current",
@@ -53,6 +63,13 @@ return {
       follow_current_file = {
         enabled = true,
         leave_dirs_open = true,
+      },
+      filtered_items = {
+        hide_by_name = {},
+        always_show = {
+          ".gitignore",
+        },
+        never_show = {},
       },
     },
   },

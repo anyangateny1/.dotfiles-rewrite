@@ -8,6 +8,8 @@ return {
     dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = {
+        -- General
+        "prettier",
         -- Shell
         "bash-language-server",
         "shellcheck",
@@ -15,6 +17,13 @@ return {
         -- Lua
         "lua-language-server",
         "stylua",
+        -- Go
+        "gopls",
+        "golangci-lint",
+        -- C/C++
+        "clangd",
+        -- Markdown
+        "markdownlint-cli2",
       },
     },
   },

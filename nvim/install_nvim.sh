@@ -31,67 +31,112 @@ detect_arch() {
     esac
 }
 
-install_dependencies() {
+detect_pkg_mgr() {
     local os="$1"
-    local missing=()
-    local cmd
 
     if [[ "$os" == "macos" ]]; then
         command -v brew >/dev/null 2>&1 ||
-            die "Homebrew not found. Install it from https://brew.sh first."
+            die "Homebrew not found."
+        echo "brew"
+        return
+    fi
 
-        local -A pkg_map=(
-            ["tar"]="gnu-tar"
-            ["make"]="make"
-            ["gcc"]="gcc"
-            ["rg"]="ripgrep"
-            ["npm"]="node"
-            ["lua5.4"]="lua@5.4"
-            ["unzip"]="unzip"
-            ["clang"]="llvm"
-        )
-
-        for cmd in "${!pkg_map[@]}"; do
-            command -v "$cmd" >/dev/null 2>&1 || missing+=("${pkg_map[$cmd]}")
-        done
-
-        if ((${#missing[@]} == 0)); then
-            log "All dependencies already installed."
-            return
-        fi
-
-        log "Installing dependencies via brew: ${missing[*]}"
-        brew install "${missing[@]}"
+    if command -v apt-get >/dev/null 2>&1; then
+        echo "apt"
+    elif command -v dnf >/dev/null 2>&1; then
+        echo "dnf"
+    elif command -v pacman >/dev/null 2>&1; then
+        echo "pacman"
     else
-        command -v apt-get >/dev/null 2>&1 ||
-            die "apt-get not found. This script only supports apt-based Linux."
+        die "No supported package manager found."
+    fi
+}
 
-        local -A pkg_map=(
-            ["tar"]="tar"
-            ["make"]="make"
-            ["gcc"]="gcc"
-            ["rg"]="ripgrep"
-            ["npm"]="npm"
-            ["lua5.4"]="lua5.4"
-            ["liblua5.4-dev"]="liblua5.4-dev"
-            ["unzip"]="unzip"
-            ["clang"]="clang"
-            ["wl-copy"]="wl-clipboard"
-        )
+declare -gA BREW_PKGS=(
+    ["tar"]="gnu-tar"
+    ["make"]="make"
+    ["gcc"]="gcc"
+    ["rg"]="ripgrep"
+    ["lua5.4"]="lua@5.4"
+    ["unzip"]="unzip"
+    ["clang"]="llvm"
+    ["node"]="node"
+)
 
-        for cmd in "${!pkg_map[@]}"; do
-            command -v "$cmd" >/dev/null 2>&1 || missing+=("${pkg_map[$cmd]}")
-        done
+declare -gA APT_PKGS=(
+    ["curl"]="curl"
+    ["tar"]="tar"
+    ["make"]="make"
+    ["gcc"]="gcc"
+    ["rg"]="ripgrep"
+    ["lua5.4"]="lua5.4"
+    ["liblua5.4-dev"]="liblua5.4-dev"
+    ["unzip"]="unzip"
+    ["clang"]="clang"
+    ["wl-copy"]="wl-clipboard"
+    ["node"]="nodejs"
+    ["npm"]="npm"
+)
 
-        if ((${#missing[@]} == 0)); then
-            log "All dependencies already installed."
-            return
-        fi
+declare -gA DNF_PKGS=(
+    ["curl"]="curl"
+    ["tar"]="tar"
+    ["make"]="make"
+    ["gcc"]="gcc"
+    ["rg"]="ripgrep"
+    ["lua5.4"]="lua"
+    ["unzip"]="unzip"
+    ["clang"]="clang"
+    ["wl-copy"]="wl-clipboard"
+    ["node"]="nodejs"
+)
 
-        log "Installing dependencies via apt: ${missing[*]}"
+declare -gA PACMAN_PKGS=(
+    ["curl"]="curl"
+    ["tar"]="tar"
+    ["make"]="make"
+    ["gcc"]="gcc"
+    ["rg"]="ripgrep"
+    ["lua5.4"]="lua"
+    ["unzip"]="unzip"
+    ["clang"]="clang"
+    ["wl-copy"]="wl-clipboard"
+    ["node"]="nodejs"
+    ["npm"]="npm"
+)
+
+install_dependencies() {
+    local pkg_mgr="$1"
+    local -n pkg_map="${pkg_mgr^^}_PKGS"
+    local missing=()
+    local cmd
+
+    for cmd in "${!pkg_map[@]}"; do
+        command -v "$cmd" >/dev/null 2>&1 || missing+=("${pkg_map[$cmd]}")
+    done
+
+    if ((${#missing[@]} == 0)); then
+        log "All system dependencies already installed."
+        return
+    fi
+
+    log "Installing system dependencies via ${pkg_mgr}: ${missing[*]}"
+
+    case "$pkg_mgr" in
+    brew)
+        brew install "${missing[@]}"
+        ;;
+    apt)
         sudo apt-get update
         sudo apt-get install -y "${missing[@]}"
-    fi
+        ;;
+    dnf)
+        sudo dnf install -y "${missing[@]}"
+        ;;
+    pacman)
+        sudo pacman -Sy --needed --noconfirm "${missing[@]}"
+        ;;
+    esac
 }
 
 install_neovim() {
@@ -191,53 +236,42 @@ link_config() {
     log "Linked ${SCRIPT_DIR} -> ${NVIM_CONFIG_DIR}"
 }
 
-install_tree_sitter() {
-    local os="$1"
-    local arch="$2"
+install_rust() {
+    # if command -v cargo >/dev/null 2>&1; then
+    #     log "Rust/cargo already installed."
+    #     return
+    # fi
 
+    log "Installing Rust via rustup..."
+
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs |
+        sh -s -- -y
+
+    # shellcheck disable=SC1091
+    source "$HOME/.cargo/env"
+
+    log "Rust installed."
+}
+
+install_tree_sitter() {
     if command -v tree-sitter >/dev/null 2>&1; then
         log "tree-sitter already installed."
         return
     fi
 
-    if [[ "$os" == "macos" ]]; then
-        log "Installing tree-sitter via brew..."
-        brew install tree-sitter
-        return
-    fi
+    command -v cargo >/dev/null 2>&1 ||
+        die "cargo not found. Rust must be installed before tree-sitter."
 
-    local ts_version="0.25.3"
-    local ts_arch="$arch"
-    local tmp_dir archive binary_url
+    log "Installing tree-sitter CLI via cargo..."
 
-    [[ "$ts_arch" == "arm64" ]] && ts_arch="arm"
-
-    archive="tree-sitter-linux-${ts_arch}.gz"
-    binary_url="https://github.com/tree-sitter/tree-sitter/releases/download/v${ts_version}/${archive}"
-
-    tmp_dir="$(mktemp -d)"
-    trap 'rm -rf -- "$tmp_dir"; trap - RETURN' RETURN
-
-    log "Downloading tree-sitter CLI v${ts_version}..."
-
-    curl \
-        --fail \
-        --location \
-        --show-error \
-        --output "${tmp_dir}/${archive}" \
-        "$binary_url"
-
-    log "Installing tree-sitter CLI to /usr/local/bin..."
-
-    gzip -d "${tmp_dir}/${archive}"
-    chmod +x "${tmp_dir}/tree-sitter-linux-${ts_arch}"
-    sudo mv -- "${tmp_dir}/tree-sitter-linux-${ts_arch}" /usr/local/bin/tree-sitter
+    cargo install tree-sitter-cli
 
     log "tree-sitter installed."
 }
 
 install_luarocks() {
     local os="$1"
+    local pkg_mgr="$2"
 
     if [[ "$os" == "macos" ]]; then
         if command -v luarocks >/dev/null 2>&1; then
@@ -252,6 +286,44 @@ install_luarocks() {
         else
             log "Installing LuaSocket..."
             luarocks install luasocket
+        fi
+        return
+    fi
+
+    if [[ "$pkg_mgr" == "dnf" ]]; then
+        if command -v luarocks >/dev/null 2>&1; then
+            log "LuaRocks already installed."
+        else
+            log "Installing LuaRocks via dnf..."
+            sudo dnf install -y luarocks
+        fi
+
+        if luarocks list --porcelain | grep -q '^luasocket '; then
+            log "LuaSocket already installed."
+        else
+            log "Installing LuaSocket..."
+            if ! sudo dnf install -y lua-luasocket 2>/dev/null; then
+                sudo luarocks install luasocket
+            fi
+        fi
+        return
+    fi
+
+    if [[ "$pkg_mgr" == "pacman" ]]; then
+        if command -v luarocks >/dev/null 2>&1; then
+            log "LuaRocks already installed."
+        else
+            log "Installing LuaRocks via pacman..."
+            sudo pacman -S --needed --noconfirm luarocks
+        fi
+
+        if luarocks list --porcelain | grep -q '^luasocket '; then
+            log "LuaSocket already installed."
+        else
+            log "Installing LuaSocket..."
+            if ! sudo pacman -S --needed --noconfirm lua-socket 2>/dev/null; then
+                sudo luarocks install luasocket
+            fi
         fi
         return
     fi
@@ -301,19 +373,23 @@ install_luarocks() {
 }
 
 main() {
-    local OS ARCH
+    local OS ARCH PKG_MGR
 
     OS="$(detect_os)"
     ARCH="$(detect_arch)"
+    PKG_MGR="$(detect_pkg_mgr "$OS")"
 
-    install_dependencies "$OS"
+    log "Detected package manager: ${PKG_MGR}"
+
+    install_dependencies "$PKG_MGR"
 
     install_neovim "$OS" "$ARCH"
     configure_path
     link_config
 
-    install_tree_sitter "$OS" "$ARCH"
-    install_luarocks "$OS"
+    install_rust
+    install_tree_sitter
+    install_luarocks "$OS" "$PKG_MGR"
 
     log "Neovim setup complete."
 }

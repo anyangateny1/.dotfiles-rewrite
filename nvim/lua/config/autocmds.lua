@@ -16,3 +16,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     vim.fn.setpos(".", pos)
   end,
 })
+
+-- Spell only in prose-like buffers (toggle anytime with <leader>ts)
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("spell-prose", { clear = true }),
+  pattern = { "markdown", "text", "gitcommit", "gitrebase" },
+  callback = function()
+    vim.opt_local.spell = true
+  end,
+})

@@ -7,7 +7,7 @@ return {
     opts = {},
     config = function(_, opts)
       require("nvim-treesitter").setup(opts)
-      require("nvim-treesitter").install({ "lua", "bash" })
+      require("nvim-treesitter").install({ "lua", "bash", "cpp" })
       vim.api.nvim_create_autocmd("FileType", {
         callback = function(ev)
           if pcall(vim.treesitter.start, ev.buf) then
@@ -61,6 +61,9 @@ return {
       vim.keymap.set("n", "<leader>A", function()
         require("nvim-treesitter-textobjects.swap").swap_previous("@parameter.inner")
       end, { desc = "Swap with previous argument" })
+
+      -- Cpp specific settings
+      --
     end,
   },
 }
