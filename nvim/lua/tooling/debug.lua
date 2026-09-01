@@ -82,6 +82,8 @@ return {
     local dapui = require("dapui")
 
     -- DAP UI.
+    require("mason-nvim-dap").setup({ ensure_installed = { "codelldb", "debugpy" } })
+
     dapui.setup()
 
     dap.listeners.after.event_initialized["dapui_config"] = function()
