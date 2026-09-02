@@ -1,12 +1,13 @@
-FROM ubuntu:24.04
+FROM fedora:latest
 
-RUN apt-get update && \
-    apt-get install -y sudo && \
-    rm -rf /var/lib/apt/lists/*
+RUN dnf -y update && \
+    dnf -y install sudo passwd && \
+    dnf clean all
 
-RUN echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/ubuntu && \
-    chmod 0440 /etc/sudoers.d/ubuntu
+RUN useradd -m -G wheel -s /bin/bash dev && \
+    echo 'dev ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/dev && \
+    chmod 0440 /etc/sudoers.d/dev
 
-USER ubuntu
-
+USER dev
+WORKDIR /home/dev
 CMD ["bash"]
