@@ -24,6 +24,7 @@ return {
         -- C/C++
         "clangd",
         "codelldb",
+        "clang-format",
         -- Python
         "pyright",
         "ruff",
