@@ -3,59 +3,59 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 
-declare -A REQUIRED_PACKAGES=(
-    [curl]="curl"
-    [git]="git"
-    [wget]="wget"
-    [tar]="tar"
-    [unzip]="unzip"
-    [make]="make"
-    [clang]="clang"
-    [wl - copy]="wl-clipboard"
-)
-
-log() {
-    printf '[*] %s\n' "$*"
-}
+log() { printf '[dotfiles] %s\n' "$*"; }
 
 die() {
     printf '[!!] %s\n' "$*" >&2
     exit 1
 }
 
-install_dependencies() {
-    local missing=()
-    local cmd
-
-    for cmd in "${!REQUIRED_PACKAGES[@]}"; do
-        if ! command -v "$cmd" >/dev/null 2>&1; then
-            missing+=("${REQUIRED_PACKAGES[$cmd]}")
-        fi
-    done
-
-    ((${#missing[@]} == 0)) && return
-
-    command -v apt-get >/dev/null 2>&1 ||
-        die "Missing packages: ${missing[*]}. No supported package manager found."
-
-    log "Installing: ${missing[*]}"
-
-    sudo apt-get update
-    sudo apt-get install -y "${missing[@]}"
+detect_pm() {
+    if command -v brew >/dev/null 2>&1; then
+        echo brew
+    elif command -v pacman >/dev/null 2>&1; then
+        echo pacman
+    elif command -v apt-get >/dev/null 2>&1; then
+        echo apt
+    elif command -v dnf >/dev/null 2>&1; then
+        echo dnf
+    else die "no supported package manager found"; fi
 }
 
-install_neovim() {
-    log "Installing Neovim..."
-    "${SCRIPT_DIR}/nvim/install_nvim.sh"
+install_base() {
+    log "installing base tools..."
+    case "$1" in
+    brew) brew install curl git unzip make ripgrep fd wl-clipboard git-lfs ;;
+    pacman) sudo pacman -S --needed --noconfirm curl git unzip make ripgrep fd wl-clipboard git-lfs ;;
+    apt)
+        sudo apt-get update -qq
+        sudo apt-get install -y curl git unzip make ripgrep fd-find wl-clipboard git-lfs
+        ;;
+    dnf) sudo dnf install -y curl git unzip make ripgrep fd-find wl-clipboard git-lfs ;;
+    esac
+}
+
+run() {
+    local script="$SCRIPT_DIR/$1"
+    [[ -x "$script" ]] || {
+        log "skipping $1"
+        return
+    }
+    log "running $1"
+    "$script"
 }
 
 main() {
-
-    install_dependencies
-
-    install_neovim
-
-    log "System setup complete."
+    local pm
+    pm="$(detect_pm)"
+    log "detected: $pm"
+    install_base "$pm"
+    run git/install.sh
+    run terminal/install.sh
+    run tmux/install.sh
+    run alacritty/install.sh
+    run nvim/install_nvim.sh
+    log "done"
 }
 
 main "$@"
