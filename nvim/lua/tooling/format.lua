@@ -31,9 +31,12 @@ return {
 
       markdown = { "prettierd" },
 
-      python = { "ruff" },
+      python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
     },
     formatters = {
+      prettierd = {
+        env = { PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath("config") .. "/.prettierrc.json" },
+      },
       ["clang-format"] = {
         cwd = function(_, ctx)
           local f = find_clang_style(ctx.filename)

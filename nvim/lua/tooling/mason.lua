@@ -9,7 +9,8 @@ return {
     opts = {
       ensure_installed = {
         -- General
-        "prettier",
+        "prettierd",
+        "json-lsp",
         -- Shell
         "bash-language-server",
         "shellcheck",
