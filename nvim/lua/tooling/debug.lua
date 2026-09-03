@@ -5,11 +5,7 @@ return {
     "rcarriga/nvim-dap-ui",
     "nvim-neotest/nvim-nio",
 
-    "williamboman/mason.nvim",
-    "jay-babu/mason-nvim-dap.nvim",
-
     "mfussenegger/nvim-dap-python",
-    "leoluz/nvim-dap-go",
     "theHamsta/nvim-dap-virtual-text",
   },
 
@@ -80,9 +76,6 @@ return {
   config = function()
     local dap = require("dap")
     local dapui = require("dapui")
-
-    -- DAP UI.
-    require("mason-nvim-dap").setup({ ensure_installed = { "codelldb", "debugpy" } })
 
     dapui.setup()
 

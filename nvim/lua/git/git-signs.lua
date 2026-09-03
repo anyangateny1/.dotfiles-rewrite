@@ -61,9 +61,10 @@ return {
 
       -- Other actions
       map("n", "<leader>hp", gs.preview_hunk, "Preview Hunk")
-      map("n", "<leader>tD", gs.preview_hunk_inline, "Toggle Preview hunk")
+      map("n", "<leader>hi", gs.preview_hunk_inline, "Preview Hunk Inline")
 
       map("n", "<leader>hd", gs.diffthis, "Split window diff")
+      map("n", "<leader>tD", gs.toggle_deleted, "Toggle Deleted Lines")
 
       map("n", "<leader>hb", gs.blame_line, "Blame Line")
       map("n", "<leader>tb", gs.toggle_current_line_blame, "Toggle Line Blame")

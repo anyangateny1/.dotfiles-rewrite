@@ -41,6 +41,7 @@ return {
       { "<leader>d", group = "[D]ocument" },
       { "<leader>l", group = "[L]SP Diagnostics" },
       { "<leader>h", group = "Git [H]unk", mode = { "n", "v" } },
+      { "<leader>j", group = "[J]obs" },
       { "<leader>r", group = "[R]ename" },
       { "<leader>s", group = "[S]earch" },
       { "<leader>t", group = "[T]oggle" },

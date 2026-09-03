@@ -5,6 +5,12 @@ return {
   config = function()
     local lint = require("lint")
 
+    lint.linters["markdownlint-cli2"].args = {
+      "--config",
+      vim.fn.stdpath("config") .. "/.markdownlint-cli2.yaml",
+      "-",
+    }
+
     lint.linters_by_ft = {
       sh = { "shellcheck" },
       bash = { "shellcheck" },
