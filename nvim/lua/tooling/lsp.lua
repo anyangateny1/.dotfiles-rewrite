@@ -4,8 +4,8 @@ return {
   config = function()
     vim.lsp.enable("lua_ls")
     vim.lsp.enable("bashls")
-    vim.lsp.enable("gopls")
     vim.lsp.enable("clangd")
+    vim.lsp.enable("jsonls")
     vim.lsp.enable("pyright")
 
     vim.diagnostic.config({
