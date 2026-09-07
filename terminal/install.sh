@@ -127,8 +127,8 @@ EOF
 }
 
 link_configs() {
-    ln -sf "$ZSH_DIR/.zshrc" "$HOME/.zshrc"
-    ln -sf "$ZSH_DIR/.p10k.zsh" "$HOME/.p10k.zsh"
+    ln -sf "$ZSH_DIR/zshrc" "$HOME/.zshrc"
+    ln -sf "$ZSH_DIR/p10k.zsh" "$HOME/.p10k.zsh"
     log "Symlinked .zshrc and .p10k.zsh"
 }
 

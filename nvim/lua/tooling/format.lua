@@ -28,6 +28,8 @@ return {
       cpp = { "clang-format" },
 
       sh = { "shfmt" },
+      bash = { "shfmt" },
+      zsh = { "shfmt" },
 
       markdown = { "prettierd" },
 
