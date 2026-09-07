@@ -1,5 +1,9 @@
 [general]
 live_config_reload = true
+import = ["~/.config/alacritty/themes/themes/dracula_plus.toml"]
+
+[env]
+TERM = "alacritty"
 
 [font]
 size = 9.0
@@ -19,11 +23,22 @@ style = "Italic"
 [keyboard]
 
 [[keyboard.bindings]]
-key = "0"
-mods = "Control"
-action = "None"
+  action = "ResetFontSize"
+  key = "Key0"
+  mods = "Command"
+
+[[keyboard.bindings]]
+  action = "IncreaseFontSize"
+  key = "Equals"
+  mods = "Command"
+
+[[keyboard.bindings]]
+  action = "DecreaseFontSize"
+  key = "Minus"
+  mods = "Command"
 
 [window]
+startup_mode = "Fullscreen"
 
 [window.dimensions]
 columns = 190
