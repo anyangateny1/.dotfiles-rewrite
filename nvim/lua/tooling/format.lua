@@ -34,6 +34,8 @@ return {
       markdown = { "prettierd" },
 
       python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
+
+      go = { "gofumpt" },
     },
     formatters = {
       prettierd = {
