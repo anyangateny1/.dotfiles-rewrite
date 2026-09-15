@@ -8,7 +8,9 @@ return {
     dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = {
-        -- General
+        -- Web / JS / TS
+        "biome",
+        "typescript-language-server",
         "prettierd",
         "json-lsp",
         -- Shell

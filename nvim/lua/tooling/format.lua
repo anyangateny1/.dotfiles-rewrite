@@ -36,8 +36,19 @@ return {
       python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
 
       go = { "gofumpt" },
+
+      javascript = { "biome-check" },
+      javascriptreact = { "biome-check" },
+      typescript = { "biome-check" },
+      typescriptreact = { "biome-check" },
+
+      json = { "biome-check" },
+      jsonc = { "biome-check" },
     },
     formatters = {
+      ["biome-check"] = {
+        args = { "check", "--write", "--unsafe", "--stdin-file-path", "$FILENAME" },
+      },
       prettierd = {
         env = { PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath("config") .. "/.prettierrc.json" },
       },
