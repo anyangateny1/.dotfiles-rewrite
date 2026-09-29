@@ -29,6 +29,7 @@
 	missingCommitsCheck = error
 	autoSquash = true
 	autoStash = true
+	committerDateIsAuthorDate = true
 
 [status]
 [pull]
