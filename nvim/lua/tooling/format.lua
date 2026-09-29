@@ -32,6 +32,7 @@ return {
       zsh = { "shfmt" },
 
       markdown = { "prettierd" },
+      tex = { "latexindent" },
 
       python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
 
@@ -46,6 +47,9 @@ return {
       jsonc = { "biome-check" },
     },
     formatters = {
+      latexindent = {
+        args = { "-l", "-" },
+      },
       ["biome-check"] = {
         args = { "check", "--write", "--unsafe", "--stdin-file-path", "$FILENAME" },
       },

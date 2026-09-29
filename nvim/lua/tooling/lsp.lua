@@ -23,9 +23,7 @@ return {
           [vim.diagnostic.severity.HINT] = "󰌶 ",
         },
       } or {},
-      virtual_text = {
-        source = "if_many",
-      },
+      virtual_text = false,
     })
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-inlay-hints", { clear = true }),
