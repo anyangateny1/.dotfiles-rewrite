@@ -20,6 +20,9 @@ vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines (cursor stays)" })
 -- Paste over selection without losing register
 vim.keymap.set("x", "<leader>p", [["_dP]], { desc = "Paste without overwriting register" })
 
+-- Multicursor stuff
+vim.keymap.set("n", "<leader>mc", vim.fn.maparg("<C-l>", "n"), { desc = "Clear multicursors" })
+
 -- Window navigation
 vim.keymap.set("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
 vim.keymap.set("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })

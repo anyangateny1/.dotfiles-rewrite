@@ -4,6 +4,7 @@
 	required = true
 	clean = git-lfs clean -- %f
 [user]
+	email = aateny@micro-x.com
 	name = Anyang Ateny
 [push]
 	autoSetupRemote = true
@@ -28,7 +29,6 @@
 	missingCommitsCheck = error
 	autoSquash = true
 	autoStash = true
-	committerDateIsAuthorDate = true
 
 [status]
 [pull]

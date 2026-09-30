@@ -1,0 +1,10 @@
+{
+    "KPackageStructure": "KWin/WindowSwitcher",
+    "KPlugin": {
+        "Name": "GNOME-style Outline",
+        "Description": "Shows only a thin outline around the selected window",
+        "Id": "gnome_outline",
+        "Version": "1.0",
+        "License": "MIT"
+    }
+}

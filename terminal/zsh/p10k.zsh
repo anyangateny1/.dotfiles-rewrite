@@ -200,7 +200,7 @@
     typeset -g POWERLEVEL9K_VCS_FOREGROUND='#E6E1D4'
 
     # Branch icon. Set to '\UE0A0 ' for the popular Powerline branch icon.
-    typeset -g POWERLEVEL10K_VCS_BRANCH_ICON='\UE0A0'
+    typeset -g POWERLEVEL9K_VCS_BRANCH_ICON='\UE0A0'
     typeset -g POWERLEVEL9K_VCS_UNTRACKED_ICON='?'
 
     # Custom git status formatter (drives POWERLEVEL9K_VCS_CONTENT_EXPANSION below).

@@ -54,6 +54,7 @@ main() {
     run terminal/install.sh
     run tmux/install.sh
     run alacritty/install.sh
+    run kde/install.sh
     run nvim/install_nvim.sh
     log "done"
 }
