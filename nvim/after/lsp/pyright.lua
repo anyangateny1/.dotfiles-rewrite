@@ -5,7 +5,7 @@ return {
     },
     python = {
       analysis = {
-        typeCheckingMode = "standard",
+        typeCheckingMode = "basic",
       },
     },
   },
