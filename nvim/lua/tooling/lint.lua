@@ -16,8 +16,6 @@ return {
       bash = { "shellcheck" },
       zsh = { "shellcheck" },
 
-      go = { "golangcilint" },
-
       markdown = { "markdownlint-cli2" },
 
       python = { "ruff" },

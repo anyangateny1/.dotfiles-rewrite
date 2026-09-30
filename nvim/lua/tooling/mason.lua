@@ -8,22 +8,17 @@ return {
     dependencies = { "mason-org/mason.nvim" },
     opts = {
       ensure_installed = {
-        -- Web / JS / TS
-        "biome",
-        "typescript-language-server",
+        -- General
         "prettierd",
         "json-lsp",
         -- Shell
         "bash-language-server",
+        "bash-debug-adapter",
         "shellcheck",
         "shfmt",
         -- Lua
         "lua-language-server",
         "stylua",
-        -- Go
-        "gopls",
-        "golangci-lint",
-        "delve",
         -- C/C++
         "clangd",
         "codelldb",

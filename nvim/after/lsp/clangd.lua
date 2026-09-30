@@ -25,8 +25,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 return {
+  root_markers = {
+    ".git",
+    ".clangd",
+    "compile_commands.json",
+    "compile_flags.txt",
+    "configure.ac",
+    ".clang-tidy",
+    ".clang-format",
+  },
   cmd = {
     "clangd",
+    "--background-index",
     "--clang-tidy",
     "--header-insertion=iwyu",
     "--query-driver=/usr/bin/g++*,/usr/bin/gcc*,/usr/bin/clang*",

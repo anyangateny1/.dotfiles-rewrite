@@ -32,27 +32,10 @@ return {
       zsh = { "shfmt" },
 
       markdown = { "prettierd" },
-      tex = { "latexindent" },
 
       python = { "ruff_organize_imports", "ruff_fix", "ruff_format" },
-
-      go = { "gofumpt" },
-
-      javascript = { "biome-check" },
-      javascriptreact = { "biome-check" },
-      typescript = { "biome-check" },
-      typescriptreact = { "biome-check" },
-
-      json = { "biome-check" },
-      jsonc = { "biome-check" },
     },
     formatters = {
-      latexindent = {
-        args = { "-l", "-" },
-      },
-      ["biome-check"] = {
-        args = { "check", "--write", "--unsafe", "--stdin-file-path", "$FILENAME" },
-      },
       prettierd = {
         env = { PRETTIERD_DEFAULT_CONFIG = vim.fn.stdpath("config") .. "/.prettierrc.json" },
       },
@@ -90,8 +73,8 @@ return {
   end, { desc = "Show which clang-format config is used" }),
 
   vim.keymap.set("n", "<leader>cf", function()
-    vim.b.disable_autoformat = not vim.b.disable_autoformat
-    if vim.b.disable_autoformat then
+    vim.g.disable_autoformat = not vim.g.disable_autoformat
+    if vim.g.disable_autoformat then
       vim.notify("Autoformat: OFF", vim.log.levels.WARN)
     else
       vim.notify("Autoformat: ON", vim.log.levels.INFO)

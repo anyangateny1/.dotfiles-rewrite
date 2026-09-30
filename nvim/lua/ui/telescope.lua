@@ -18,7 +18,11 @@ return {
     {
       "<leader>sg",
       function()
-        require("telescope.builtin").live_grep(require("telescope.themes").get_ivy())
+        require("telescope.builtin").live_grep(require("telescope.themes").get_ivy({
+          layout_config = {
+            height = 0.7,
+          },
+        }))
       end,
       desc = "[S]earch by [G]rep",
     },

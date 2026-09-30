@@ -4,12 +4,9 @@ return {
   config = function()
     vim.lsp.enable("lua_ls")
     vim.lsp.enable("bashls")
-    vim.lsp.enable("gopls")
     vim.lsp.enable("clangd")
     vim.lsp.enable("jsonls")
     vim.lsp.enable("pyright")
-    vim.lsp.enable("biome")
-    vim.lsp.enable("ts_ls")
 
     vim.diagnostic.config({
       severity_sort = true,
@@ -23,7 +20,9 @@ return {
           [vim.diagnostic.severity.HINT] = "󰌶 ",
         },
       } or {},
-      virtual_text = false,
+      virtual_text = {
+        source = "if_many",
+      },
     })
     vim.api.nvim_create_autocmd("LspAttach", {
       group = vim.api.nvim_create_augroup("lsp-inlay-hints", { clear = true }),

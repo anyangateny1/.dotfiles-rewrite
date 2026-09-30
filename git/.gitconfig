@@ -4,7 +4,6 @@
 	required = true
 	clean = git-lfs clean -- %f
 [user]
-	email = anyangateny@outlook.com
 	name = Anyang Ateny
 [push]
 	autoSetupRemote = true

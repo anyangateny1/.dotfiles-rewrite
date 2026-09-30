@@ -32,6 +32,9 @@ return {
           quit = { "q", "<ESC>" },
         },
       },
+      lightbulb = {
+        enable = false,
+      },
     })
 
     local keymap = vim.keymap.set
