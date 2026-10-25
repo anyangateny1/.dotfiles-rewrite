@@ -6,6 +6,10 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   config = function()
+    -- Shim for removed internal API (Neovim 0.13+)
+    vim.lsp.util._get_line_byte_from_position = vim.lsp.util._get_line_byte_from_position
+      or function(_, position) return position.character end
+
     require("lspsaga").setup({
       code_action = {
         extend_gitsigns = false,

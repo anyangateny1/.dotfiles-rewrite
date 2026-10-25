@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-readonly NVIM_VERSION="0.12.5"
+readonly NVIM_VERSION="nightly"
 readonly NVIM_INSTALL_DIR="/opt/nvim"
 readonly NVIM_CONFIG_DIR="${HOME}/.config/nvim"
 readonly SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -145,15 +145,13 @@ install_neovim() {
     local tmp_dir archive_path extracted_dir nvim_platform nvim_archive nvim_url
 
     if [[ -x "${NVIM_INSTALL_DIR}/bin/nvim" ]]; then
-        if [[ "$("${NVIM_INSTALL_DIR}/bin/nvim" --version | head -n1)" == "NVIM v${NVIM_VERSION}" ]]; then
-            log "Neovim ${NVIM_VERSION} already installed."
-            return
-        fi
+        log "Neovim ${NVIM_VERSION} already installed."
+        return
     fi
 
     [[ "$os" == "macos" ]] && nvim_platform="macos" || nvim_platform="linux"
     nvim_archive="nvim-${nvim_platform}-${arch}.tar.gz"
-    nvim_url="https://github.com/neovim/neovim/releases/download/v${NVIM_VERSION}/${nvim_archive}"
+    nvim_url="https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/${nvim_archive}"
 
     tmp_dir="$(mktemp -d)"
     trap 'rm -rf -- "$tmp_dir"; trap - RETURN' RETURN
@@ -237,10 +235,10 @@ link_config() {
 }
 
 install_rust() {
-    # if command -v cargo >/dev/null 2>&1; then
-    #     log "Rust/cargo already installed."
-    #     return
-    # fi
+    if command -v cargo >/dev/null 2>&1; then
+        log "Rust/cargo already installed."
+        return
+    fi
 
     log "Installing Rust via rustup..."
 

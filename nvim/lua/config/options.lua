@@ -67,3 +67,6 @@ vim.opt.foldenable = true
 
 -- Spelling
 vim.opt.spelllang = { "en_au" }
+
+-- Filetypes
+vim.filetype.add({ extension = { h = "cpp" } })

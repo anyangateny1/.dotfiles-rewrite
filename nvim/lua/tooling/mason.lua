@@ -29,10 +29,9 @@ return {
         "clangd",
         "codelldb",
         "clang-format",
-        -- Python
+        -- Python (debugpy installed manually: see install_nvim.sh)
         "pyright",
         "ruff",
-        "debugpy",
         -- Markdown
         "markdownlint-cli2",
       },
