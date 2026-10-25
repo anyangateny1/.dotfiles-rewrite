@@ -6,7 +6,7 @@ import = ["~/.config/alacritty/themes/themes/dracula_plus.toml"]
 TERM = "xterm-256color"
 
 [font]
-size = 9.0
+size = 15.0
 
 [font.normal]
 family = "JetBrainsMono Nerd Font"
@@ -39,6 +39,7 @@ style = "Italic"
 
 [window]
 startup_mode = "Fullscreen"
+option_as_alt = "Both"
 
 [window.dimensions]
 columns = 190

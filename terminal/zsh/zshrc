@@ -54,9 +54,6 @@ unset _f
 
 [[ ! -r "$POWERLEVEL10K_THEME" ]] || source "$POWERLEVEL10K_THEME"
 
-alias make='make -j$(nproc)'
-alias ninja='ninja -j$(nproc)'
-
 export SSH_AUTH_SOCK="${XDG_RUNTIME_DIR}/ssh-agent.socket"
 
 [[ ! -r "$HOME/.p10k.zsh" ]] || source "$HOME/.p10k.zsh"
